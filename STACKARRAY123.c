@@ -73,7 +73,8 @@ int main()
 	stack s;
 	s.top=-1;
 	int ch, ele;
-	do{
+	while(1)
+	{
 	printf("\n\nMenu\n\n1. Push.\n2. Pop.\n3. Stacktop.\n4. Display.\n5. Exit.");
 	printf("\nEnter the choice:");
 	scanf("%d", &ch);
@@ -108,7 +109,7 @@ int main()
 						}
 						else
 						{
-							printf("\n%d is poped.", ele);
+							printf("\n%d is at top.", ele);
 							break;
 						}
 					}
@@ -127,6 +128,6 @@ int main()
 									printf("\nInvalid choice.");
 								}
 	}
-	}while(ch!=5);
+	}
 	return 0;
 }
