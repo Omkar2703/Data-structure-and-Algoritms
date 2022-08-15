@@ -1,17 +1,19 @@
 #include<stdio.h>
-#include<ctype.h>
 #include<string.h>
-#define MAX 15
-typedef struct
+#include<math.h>
+#define MAX 10
+typedef struct 
 {
     int a[MAX];
     int top;
 }stack;
+//Function to insert the element into stack.
 void push(stack*s, int ele)
 {
     s->top++;
     s->a[s->top]=ele;
 }
+//Function to delete element from stack.
 int pop(stack*s)
 {
     int x;
@@ -19,9 +21,10 @@ int pop(stack*s)
     s->top--;
     return x;
 }
-int isempty(stack*s)
+//Function to check operand.
+int isoperand(char a)
 {
-    if(s->top==-1)
+    if(a>='0'&&a<='9')
     {
         return 1;
     }
@@ -30,55 +33,60 @@ int isempty(stack*s)
         return 0;
     }
 }
-int isoperand(char x)
-{
-    if(x >='0'&& x<='9')
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-int evaluatepostfix(char post)
+/*Function to evaluate postfix operation.*/
+int evaluatepost(char post[])
 {
     stack s;
     s.top=-1;
-    char x;
-    int op1, op2, i, v;
-    for(i=0;i<strlen(post);i++)
+    int op1, op2, v;
+    char y, a;
+    for (int i = 0; i < strlen(post); i++)
     {
-        x=post[i];
-        if (isoperand(x))
+        y=post[i];
+        if (isoperand(a))
         {
-            push(&s,(int)x-'0');
+            push(&s, (int)a-'0');
         }
         else
         {
             op1=pop(&s);
             op2=pop(&s);
-            switch(x)
+            switch (y)
             {
-                case '+':{
-                    v=op1+op2;
-                    break;
-                }
-                case '-':{
-                    v=op1-op2;
-                    break;
-                }
-                case '*':{
-                    v=op1*op2;
-                    break;
-                }
-                case '/':{
-                    v=op1/op2;
-                    break;
-                }
-                push(&s, v);
+            case '+':
+            {
+                v=op1+op2;
+                break;
             }
+            case '-':
+            {
+                v=op1-op2;
+                break;
+            }
+            case '*':
+            {
+                v=op1*op2;
+                break;
+            }
+            case '/':
+            {
+                v=op1/op2;
+                break;
+            }
+            case '%':
+            {
+                v=op1%op2;
+                break;
+            }
+            default:
+            {
+                printf("\nInvalid choice.");
+                break;
+            }
+            }
+            push(&s, v);
         }
+        
     }
     return pop(&s);
 }
@@ -87,6 +95,6 @@ int main()
     char post[10];
     printf("\nEnter the postfix expression:");
     gets(post);
-    printf("Result id %d",evaluatepostfix(post));
+    printf("result = %d",evaluatepost(post));
     return 0;
 }
