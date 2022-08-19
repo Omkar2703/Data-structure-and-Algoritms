@@ -1,30 +1,28 @@
+/*Evaluate Postfix Exression.*/
 #include<stdio.h>
 #include<string.h>
-#include<math.h>
-#define MAX 10
+#define MAX 50
 typedef struct 
 {
-    int a[MAX];
+    char a[MAX];
     int top;
 }stack;
-//Function to insert the element into stack.
-void push(stack*s, int ele)
+void push(stack*s, char ele)
 {
     s->top++;
     s->a[s->top]=ele;
 }
-//Function to delete element from stack.
 int pop(stack*s)
 {
-    int x;
+    char x;
     x=s->a[s->top];
     s->top--;
     return x;
+
 }
-//Function to check operand.
-int isoperand(char a)
+int isempty(stack*s)
 {
-    if(a>='0'&&a<='9')
+    if(s->top==-1)
     {
         return 1;
     }
@@ -33,68 +31,101 @@ int isoperand(char a)
         return 0;
     }
 }
-/*Function to evaluate postfix operation.*/
-int evaluatepost(char post[])
+int isoperand(char x)
+{
+    if((x>='A'&&x<='Z')||(x>='a'&&x<='z')||(x>='0'&&x<='9'))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+int isoperator(char x)
+{
+    if(x=='+'||x=='-'||x=='*'||x=='/'||x=='%')
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+char stacktop(stack*s)
+{
+    if(isempty(s))
+    {
+        printf("\nStack is underflow.");
+    }
+    else
+    {
+        return s->a[s->top];
+    }
+}
+int postfixvalue(char post[])
 {
     stack s;
     s.top=-1;
-    int op1, op2, v;
-    char y, a;
-    for (int i = 0; i < strlen(post); i++)
+    int i, op1, op2, v;
+    char x;
+    for(i=0; i<strlen(post);i++)
     {
-        y=post[i];
-        if (isoperand(a))
+        if(isoperand(post[i]))
         {
-            push(&s, (int)a-'0');
+            push(&s, (int)post[i]-'0');
         }
         else
         {
             op1=pop(&s);
             op2=pop(&s);
-            switch (y)
+            switch (post[i])
             {
-            case '+':
-            {
-                v=op1+op2;
-                break;
-            }
-            case '-':
-            {
-                v=op1-op2;
-                break;
-            }
-            case '*':
-            {
-                v=op1*op2;
-                break;
-            }
-            case '/':
-            {
-                v=op1/op2;
-                break;
-            }
-            case '%':
-            {
-                v=op1%op2;
-                break;
-            }
-            default:
-            {
-                printf("\nInvalid choice.");
-                break;
-            }
+                case '+':
+                {
+                    v=op1+op2;
+                    break;
+                }
+                case '-':
+                {
+                    v=op1-op2;
+                    break;
+                }
+                case '*':
+                {
+                    v=op1*op2;
+                    break;
+                }
+                case '/':
+                {
+                    v=op1/op2;
+                    break;
+                }
+                case '%':
+                {
+                    v=op1%op2;
+                    break;
+                }
+                default:
+                {
+                    printf("\nInvalid choice.");
+                }
             }
             push(&s, v);
         }
-        
     }
     return pop(&s);
 }
 int main()
 {
-    char post[10];
-    printf("\nEnter the postfix expression:");
+    stack s;
+    s.top=-1;
+    int P;
+    char post[50];
+    printf("\nEnter the expression:");
     gets(post);
-    printf("result = %d",evaluatepost(post));
+    P=postfixvalue(post);
+    printf("\nThe value of expression = %d", P);
     return 0;
 }
