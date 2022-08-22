@@ -1,3 +1,4 @@
+/*MY code for linear search😎😉🤞*/
 #include<stdio.h>
 #include<stdlib.h>
 int linearsearch( int a[], int n, int x)
