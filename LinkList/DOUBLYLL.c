@@ -1,3 +1,4 @@
+/*free(p) is used to De-Alocate the Memory Dynamically*/
 #include<stdio.h>
 #include<stdlib.h>
 typedef struct node
