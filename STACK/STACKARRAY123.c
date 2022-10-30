@@ -85,8 +85,9 @@ int main()
 				printf("\nEnter the element:");
 				scanf("%d", &ele);
 				push(&s, ele);
-				break;
+				
 			}
+			break;
 			case 2:
 				{
 					ele = pop(&s);
@@ -97,9 +98,10 @@ int main()
 					else
 					{
 						printf("\n%d is poped.", ele);
-						break;
+						
 					}
 				}
+				break;
 				case 3:
 					{
 						ele = stacktop(&s);
@@ -110,19 +112,22 @@ int main()
 						else
 						{
 							printf("\n%d is at top.", ele);
-							break;
+							
 						}
 					}
+					break;
 					case 4:
 						{
 							display(&s);
-							break;
+							
 						}
+						break;
 						case 5:
 							{
 								printf("\nExit satisfied.");
-								break;
+								
 							}
+							break;
 							default:
 								{
 									printf("\nInvalid choice.");
