@@ -11,22 +11,11 @@ typedef struct LL
 }LL;
 void Push(LL*l, int ele)
 {
-	node*newrec, *p;
+	node*newrec;
+	newrec=(node*)malloc(sizeof(node));
 	newrec->data=ele;
-	newrec->next=NULL;
-	if(l->start==NULL)
-	{
-		l->start=newrec;
-	}
-	else
-	{
-		p=l->start;
-		while(p->next!=NULL)
-		{
-			p=p->next;
-		}
-		p->next=newrec;
-	}
+	newrec->next=l->start;
+	l->start=newrec;
 }
 void display(LL*l)
 {
@@ -40,7 +29,7 @@ void display(LL*l)
 		p=l->start;
 		while(p!=NULL)
 		{
-			printf("%d\n",p->data);
+			printf("\n%d",p->data);
 			p=p->next;
 		}
 		printf("\n");
