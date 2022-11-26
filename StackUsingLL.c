@@ -37,7 +37,7 @@ void display(LL*l)
 	}
 	else
 	{
-		p=l-start;
+		p=l->start;
 		while(p->next!=NULL)
 		{
 			printf("%d\n",p->data);
