@@ -8,7 +8,7 @@ typedef struct node
 typedef struct LL
 {
 	node*start;
-}
+}LL;
 void Push(LL*l, int ele)
 {
 	node*newrec, *p;
