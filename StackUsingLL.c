@@ -31,7 +31,7 @@ void Push(LL*l, int ele)
 void display(LL*l)
 {
 	node*p;
-	if(l-start==NULL)
+	if(l->start==NULL)
 	{
 		printf("\nStack is Empty\n");
 	}
