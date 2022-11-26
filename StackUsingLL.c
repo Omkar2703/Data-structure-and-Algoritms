@@ -38,7 +38,7 @@ void display(LL*l)
 	else
 	{
 		p=l->start;
-		while(p->next!=NULL)
+		while(p!=NULL)
 		{
 			printf("%d\n",p->data);
 			p=p->next;
@@ -91,7 +91,7 @@ int main()
 		{
 			case 1:
 				{
-					printf("\Enter the number to be inserted:");
+					printf("\nEnter the number to be inserted:");
 					scanf("%d", &ele);
 					Push(&l, ele);
 				}
