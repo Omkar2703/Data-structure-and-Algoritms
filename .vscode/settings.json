@@ -1,0 +1,8 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "linklistcpp": "cpp",
+        "iostream": "cpp"
+    }
+}
