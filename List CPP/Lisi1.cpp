@@ -16,5 +16,14 @@ int main(){
     l1.push_back(8);
     l1.push_back(23);
     display(l1);
+    // l1.pop_front();
+    // display(l1);
+    // l1.remove(20);
+    //Sorting elements in list
+    l1.sort();
+    display(l1);
+    //Reversing the list
+    l1.reverse();
+    display(l1);
     return 0;
 }
