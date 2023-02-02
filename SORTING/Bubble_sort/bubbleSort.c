@@ -24,7 +24,7 @@ int main(){
     int *x;
     FILE *Rand, *Sort;
     float total; 
-    printf("\nEnter the size: ");
+    printf("\nHow many Inputs? ");
     scanf("%d", &n);
     x = (int*)malloc(sizeof(int)*n);
     Rand = fopen("arr_rand.txt", "w"); //This will open the file in given mode
@@ -45,6 +45,7 @@ int main(){
     for(i=0; i<n; i++){
         fprintf(Sort,"%d\n",x[i]); // writes all the input form array to arr_sort.txt file
     }
+    //Calculate time
     total = (float)(end - start) / CLOCKS_PER_SEC; // CLOCKS_PER_SEC is contant predefined in <time.h>
     printf("\nTime: %f", total);
     return 0;
