@@ -2,13 +2,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 //node => process
-typdef struct node{
-    int PID;
-    int AT;
-    int BT;
-    int CT;
+typedef struct node
+{
+    int PID, AT, BT;
     struct node*next;
-};
+}node;
 typedef struct LL{
     node*start;
 }LL;
@@ -17,8 +15,8 @@ void ProcessQueue(LL*l, int pid, int at, int bt){
     node*newrec, *p;
     newrec = (node*)malloc(sizeof(node));
     newrec->PID = pid;
-    newrec->at = AT;
-    newrec->bt = BT;
+    newrec->AT = at;
+    newrec->BT = bt;
     newrec->next=NULL;
     if(l->start==NULL)
 	{
@@ -33,4 +31,41 @@ void ProcessQueue(LL*l, int pid, int at, int bt){
 		}
 		p->next=newrec;
 	} 
+}
+void display(LL*l)//Displays all Processes present in Queue.
+{
+    node*p;
+    if(l->start==NULL)
+    {
+        printf("\nNo Process");
+    }
+    else
+    {
+        p=l->start;
+        while(p!=NULL)
+        {
+            printf("\nProcess_ID: %d\t", p->PID);
+            printf("Arrival_Time: %d\t", p->AT);
+            printf("Burst_Time: %d\t\n", p->BT);
+            p=p->next;
+        }
+        printf("\n");
+    }
+}
+int main(){
+    LL l;
+    l.start=NULL;
+    int pid, at, bt, ct, n, i;
+    // ProcessQueue(&l, 1, 6, 1);
+    // ProcessQueue(&l, 2, 8, 1);
+    // ProcessQueue(&l, 4, 3, 3);
+    printf("\nEnter the number of process: ");
+	scanf("%d", &n);
+	for(i=0; i<n; i++){
+		printf("\nEnter the process Id, Arrival Time, Burst Time: ");
+		scanf("%d%d%d", &pid, &at, &bt);
+		ProcessQueue(&l, pid, at, bt);
+	}
+    display(&l);
+    return 0;
 }
