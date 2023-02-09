@@ -29,7 +29,7 @@ int Quick_Sort(int a[], int p, int q){
 }
 int main(){
 	int n;
-	cout<<"Enter the numer of elements: ";
+	cout<<"Enter the number of elements: ";
 	cin>>n;
 	int a[n];
 	int i;
