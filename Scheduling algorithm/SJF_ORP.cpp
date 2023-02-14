@@ -104,11 +104,11 @@ int main(){
 	
 
 	cout<<"\t\tShortest Job First"<<endl;
-    cout<<"PID\t"<<"BT\t"<<"AT\t"<<"CT\t"<<"WT\t"<<endl;
+    cout<<"PID\t"<<"BT\t"<<"AT\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<endl;
     
     for(int i=0;i<n;i++){
 		
-		 cout<<"P"<<End[i].PID<<"\t"<<End[i].BT<<"  \t"<<End[i].AT<<"  \t"<<End[i].CT<<"  \t"<<End[i].WT<<endl;
+		 cout<<"P"<<End[i].PID<<"\t"<<End[i].BT<<"  \t"<<End[i].AT<<"  \t"<<End[i].CT<<" \t"<<End[i].TAT<<"  \t"<<End[i].WT<<endl;
 		
 	}
     float waitingtime=0;
