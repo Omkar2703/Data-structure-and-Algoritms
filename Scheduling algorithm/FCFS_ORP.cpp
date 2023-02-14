@@ -2,8 +2,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define max 10
-
-
 //Process Control Block
 struct PCB{
  int PID;//process id
@@ -17,10 +15,6 @@ struct PCB{
 vector<PCB>pcb;//to accept the process
 queue<PCB>readyQ;//ready queue
 vector<PCB>End;//ended process
-
-
-
-
 //Sort processes according to their burst time
 int sortbyarrival(PCB a, PCB b){
 	if (a.AT < b.AT)
