@@ -138,13 +138,8 @@ int main()
         }
     }
 
-    cout << "\t\tShortest Job First" << endl;
-    cout << "PID\t"
-         << "BT\t"
-         << "AT\t"
-         << "CT\t"
-         << "TAT\t"
-         << "WT\t" << endl;
+    cout << "\t\tShortest Remaining Time Next" << endl;
+    cout << "PID\t"<< "BT\t"<< "AT\t"<< "CT\t"<< "TAT\t"<< "WT\t" << endl;
 
     for (int i = 0; i < n; i++)
     {
