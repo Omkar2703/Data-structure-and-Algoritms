@@ -5,36 +5,28 @@ using namespace std;
 #define max 10
 
 
-//all dATa struCTres which are used inside the program
-//PCB(process control block)
+//Process Control Block
 struct PCB
 {
- int PID;
- int BT;
- int AT;
- int CT;
- int RT;//remaining time(going to decrement every sec when it become 0 process is done)
- int TAT;//CT-AT
- int WT;//TAT-BT
+ int PID;//process id
+ int BT;//burst time
+ int AT;//arrival time
+ int CT;//Completion time
+ int RT;//remaining time
+ int TAT;//Turn Around Time
+ int WT;//Waiting Time
 };
-//ram like struCTure (new sTATe)
-vector<PCB>pcb;
-//ready queue(ready sTATe)
-queue<PCB>readyQ;
-//ram like struCTure(EndminATed sTATe)
-vector<PCB>End;
+vector<PCB>pcb;//to accept the process
+queue<PCB>readyQ;//ready queue
+vector<PCB>End;//ended process
 
-//1 means cpu is free and 0 means cpu is not free	
-int c=1;
-//number of process(PCB's)
+
+int c=1;//Means CPU is free
 int n;
-//global clock
-int t=0;
-//poinEnd inside the ram(memory) JOB QUEUE
-int p=0;
+int t=0;//clock
+int p=0;//Queue Pointer
 
-//soRTing 
-//PCB according to arrival time
+//Sort processes according to their burst time
 int sortbyarrival(PCB a, PCB b)
 {
 	if (a.AT < b.AT)
@@ -42,7 +34,7 @@ int sortbyarrival(PCB a, PCB b)
 	else
 		return 0;
 }
-//PCB according to burst time
+//Sort processes according to their arrival time
 int sortbyburst(PCB a, PCB b)
 {
 	if (a.BT < b.BT)
@@ -53,7 +45,6 @@ int sortbyburst(PCB a, PCB b)
 
 
 
-//one's the global time reach the arrival time push inside the queue and once cpu is free send for execution
 
 int main()
 {
@@ -66,61 +57,51 @@ int main()
         PCB process;
         process.CT=0;
         process.PID=i+1;
-
+		//accepting processes
         cout<<"enEnd the burst time of process "<<i+1<<"is:";
         cin>>process.BT;
         cout<<"enEnd the arrival time of process"<<i+1<<"is:";
         cin>>process.AT;
         process.RT=process.BT;
-        
-        pcb.push_back(process);
+        pcb.push_back(process);//pushing all processes into vector pcb
     }
     
     sort(pcb.begin(),pcb.end(),sortbyarrival);
   
 	while(1)
     {
-	  //EndminATing condition
-      //when queue is emtpy and array is also empty and cpu is also free
   		if(p==n && readyQ.empty() && c==1)
   		{
-  		break;
+  		break;//checking condition for Queue, vector and cpu underflow
   		}
-//--------------------------------------------------------------
-	   //enqueu funCTion
-	  //enqueue inside the queue untill arrival time meet with aCTual time
 	    while(1)
 	    {
-	  	//if PCB from array is finished
-	  	if(p>=n)break;
+	  	//enqueue process inside queue till at matches with actual time
+	  	if(p>=n){
+			break;//when all processes in vector are completed
+		}
 	  
 	    if(t==pcb[p].AT)  
 		{
 		  readyQ.push(pcb[p]);
 		  p=p+1;
-		  //enqueue(&q,p[p]);	
-		 }else{
+		 }
+		 else{
 			break;
 	      }
         }
       
-//-----------------------------------------------------------		
-		//dequeu operATion
-		//if cpu is free(and ready queue is not empty then) then dequeue the PCB
+		//dequeue process from pcb if cpu is free
 		
-		PCB block;
+		PCB block;//storing variable
 
 		if(c==1 && !readyQ.empty())
 		{
 		    block=readyQ.front();
 		    readyQ.pop();
-			//cpopedtime=0;
-			//popedtime=0;
-			c=0;//now cpu is under execution
+			c=0;//now cpu is not free
 		}
-//--------------------------------------------------------------
-        //cpu execution
-        //cpopedtime++;//counting afEnd popping
+		//calculating ct and wt
         t++;
         if(c==0)
         {
@@ -130,15 +111,13 @@ int main()
         block.CT=t;
         block.TAT=block.CT-block.AT;
         block.WT=block.TAT-block.BT;
-        /*cout<<"Completion time of process "<<block.PID<<" is:"<<block.CT<<"\n";*/
         End.push_back(block);
-	    c=1;//cpu is free now we can pop from the ready queue
+	    c=1;//remove from ready queue as cpu is not nder execution
         }
         }
 	  }	
 	
 
-	//now printing the output of process
 	cout<<"\t\tFCFS"<<endl;
     cout<<"PID\t"<<"BT\t"<<"AT\t"<<"CT\t"<<"WT\t"<<endl;
     
