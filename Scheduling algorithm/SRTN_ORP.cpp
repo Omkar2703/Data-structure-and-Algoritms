@@ -1,135 +1,167 @@
 /*Shortest Remaining Time Next*/
 /*Preamtive Shortest Job First*/
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 #define max 10
-//Process Control Block
-struct PCB{
- int PID;//process id
- int BT;//burst time
- int AT;//arrival time
- int CT;//Completion time
- int RT;//remaining time
- int TAT;//Turn Around Time
- int WT;//Waiting Time
+// Process Control Block
+struct PCB
+{
+    int PID; // process id
+    int BT;  // burst time
+    int AT;  // arrival time
+    int CT;  // Completion time
+    int RT;  // remaining time
+    int TAT; // Turn Around Time
+    int WT;  // Waiting Time
 };
-vector<PCB>pcb;//to accept the process
-queue<PCB>readyQ;//ready queue
-vector<PCB>End;//ended process
-//Sort processes according to their burst time
-int sortbyarrival(PCB a, PCB b){
-	if (a.AT < b.AT)
-		return 1;
-	else
-		return 0;
+PCB block;//*
+vector<PCB> pcb;   // to accept the process
+queue<PCB> readyQ; // ready queue
+vector<PCB> End;   // ended process
+// Sort processes according to their burst time
+int sortbyarrival(PCB a, PCB b)
+{
+    if (a.AT < b.AT)
+        return 1;
+    else
+        return 0;
 }
-//Sort processes according to their arrival time
-int sortbyburst(PCB a, PCB b){
-	if (a.BT < b.BT)
-		return 1;
-	else
-		return 0;
+// Sort processes according to their arrival time
+int sortbyburst(PCB a, PCB b)
+{
+    if (a.BT < b.BT)
+        return 1;
+    else
+        return 0;
 }
-int main(){
-	int c=1;//Means CPU is free
-	int n;
-	int clock=0;//clock
-	int p=0;//Queue Pointer
-    cout<<"Enter the number of process:";
-    cin>>n;
-    for(int i=0;i<n;i++){
+int main()
+{
+    int c = 1; // Means CPU is free
+    int n;
+    int clock = 0; // clock
+    int p = 0;     // Queue Pointer
+    cout << "Enter the number of process:";
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
         PCB process;
-        process.CT=0;
-        process.PID=i+1;
-		//accepting processes
-        cout<<"Enter the burst time and arrival time of P"<<i+1<<" : ";
-        cin>>process.BT>>process.AT;
-        process.RT=process.BT;
-        pcb.push_back(process);//pushing all processes into vector pcb
+        process.CT = 0;
+        process.PID = i + 1;
+        // accepting processes
+        cout << "Enter the burst time and arrival time of P" << i + 1 << " : ";
+        cin >> process.BT >> process.AT;
+        process.RT = process.BT;
+        pcb.push_back(process); // pushing all processes into vector pcb
     }
-    
-    sort(pcb.begin(),pcb.end(),sortbyarrival);
-  
-	while(1){
-  		if(p==n && readyQ.empty() && c==1){
-  		break;//checking condition for Queue, vector and cpu underflow
-  		}
-	    while(1){
-	  	//enqueue process inside queue till at matches with actual time
-	  	if(p>=n){
-			break;//when all processes in vector are completed
-		}
-	  
-	    if(clock==pcb[p].AT){
-            if(c==1){
-                readyQ.push(pcb[p]);
-		        p=p+1;
+
+    sort(pcb.begin(), pcb.end(), sortbyarrival);
+
+    while (1)
+    {
+        if (p == n && readyQ.empty() && c == 1)
+        {
+            break; // checking condition for Queue, vector and cpu underflow
+        }
+        while (1)
+        {
+            // enqueue process inside queue till at matches with actual time
+            if (p >= n)
+            {
+                break; // when all processes in vector are completed
             }
-            else{
-                if(block.RT>pcb[p].BT){
-                    readyQ.push(block);
-                    block=pcb[p];
-                    p++;
+            if (clock == pcb[p].AT)
+            {
+                if (c == 1)
+                {
+                    //normal process for c==1
+                    readyQ.push(pcb[p]);
+                    p += 1;
+                }
+                else
+                {
+                    // means cpu is under execution
+                    if (block.RT > pcb[p].BT)
+                    { // shortest process will run
+                        readyQ.push(block);
+                        block = pcb[p];
+                        p++;
+                    }
+                    else
+                    {
+                        readyQ.push(pcb[p]);
+                        p = p + 1;
+                    }
                 }
             }
-		 }
-		 else{
-			break;
-	      }
+            else
+            {
+                break;
+            }
         }
-      
-		//dequeue process from pcb if cpu is free
-		
-		// PCB block;//storing variable
 
-		if(c==1 && !readyQ.empty()){
-		    //sort the ready queue according to burst time
-            vector<PCB>process;
-            for(int i=0; i<p; i++){
+        // dequeue process from pcb if cpu is free
+
+        // PCB block;//storing variable
+
+        if (c == 1 && !readyQ.empty())
+        {
+            // sort the ready queue according to burst time
+            vector<PCB> process;
+            for (int i = 0; i < p; i++)
+            {
                 process.push_back(readyQ.front());
-		        readyQ.pop();
+                readyQ.pop();
             }
             sort(process.begin(), process.end(), sortbyburst);
-            for(int i=0; i<p; i++){
+            for (int i = 0; i < p; i++)
+            {
                 readyQ.push(process[i]);
             }
             process.clear();
-            block=readyQ.front();
-		    readyQ.pop();
-			c=0;//CPU is not free
-		}
-		//calculating ct and wt
+            block = readyQ.front();
+            readyQ.pop();
+            c = 0; // CPU is not free
+        }
+        // calculating ct and wt
         clock++;
-        if(c==0){
-        block.RT--;
-            if(block.RT==0){
-                block.CT=clock;
-                block.TAT=block.CT-block.AT;
-                block.WT=block.TAT-block.BT;
+        if (c == 0)
+        {
+            block.RT--;
+            if (block.RT == 0)
+            {
+                block.CT = clock;
+                block.TAT = block.CT - block.AT;
+                block.WT = block.TAT - block.BT;
                 End.push_back(block);
-                c=1;//remove from ready queue as cpu is not nder execution
+                c = 1; // remove from ready queue as cpu is not nder execution
             }
         }
-	  }	
-	
+    }
 
-	cout<<"\t\tShortest Job First"<<endl;
-    cout<<"PID\t"<<"BT\t"<<"AT\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<endl;
-    
-    for(int i=0;i<n;i++){
-		
-		 cout<<"P"<<End[i].PID<<"\t"<<End[i].BT<<"  \t"<<End[i].AT<<"  \t"<<End[i].CT<<" \t"<<End[i].TAT<<"  \t"<<End[i].WT<<endl;
-		
-	}
-    float waitingtime=0;
-	for(int i=0;i<n;i++){
-		waitingtime=waitingtime+End[i].WT;
-	}
-	float tat=0;
-	for(int i=0; i<n; i++){
-		tat+=End[i].TAT;
-	}
-	cout<<"\nAverage TAT for FCFS:"<<(float)(tat/n)<<endl;//avg tat
-	cout<<"\nAverage Waiting for FCFS:"<<(float)(waitingtime/n)<<endl;//avg wt
+    cout << "\t\tShortest Job First" << endl;
+    cout << "PID\t"
+         << "BT\t"
+         << "AT\t"
+         << "CT\t"
+         << "TAT\t"
+         << "WT\t" << endl;
+
+    for (int i = 0; i < n; i++)
+    {
+
+        cout << "P" << End[i].PID << "\t" << End[i].BT << "  \t" << End[i].AT << "  \t" << End[i].CT << " \t" << End[i].TAT << "  \t" << End[i].WT << endl;
+    }
+    float waitingtime = 0;
+    for (int i = 0; i < n; i++)
+    {
+        waitingtime = waitingtime + End[i].WT;
+    }
+    float tat = 0;
+    for (int i = 0; i < n; i++)
+    {
+        tat += End[i].TAT;
+    }
+    cout << "\nAverage TAT for FCFS:" << (float)(tat / n) << endl;             // avg tat
+    cout << "\nAverage Waiting for FCFS:" << (float)(waitingtime / n) << endl; // avg wt
     return 0;
 }
