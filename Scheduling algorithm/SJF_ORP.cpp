@@ -1,4 +1,4 @@
-/*Shortest Job First*/
+/*Shortest Job First*/😎
 #include<bits/stdc++.h>
 using namespace std;
 #define max 10
