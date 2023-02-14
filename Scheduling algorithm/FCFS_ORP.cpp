@@ -18,6 +18,11 @@ vector<PCB>pcb;//to accept the process
 queue<PCB>readyQ;//ready queue
 vector<PCB>End;//ended process
 
+int n;
+int c = 1;//Means CPU is free
+int clock = 0;
+int p = 0;//Queue Pointer
+
 //Sort processes according to their burst time
 int SortbyBurst(PCB a, PCB b){
     if(a.BT<b.BT){
@@ -39,10 +44,7 @@ int Sortbyarrival(PCB a, PCB b){
 }
 
 int main(){
-    int n;
-    int c = 1;//Means CPU is free
-    int clock = 0;
-    int p = 0;//Queue Pointer
+    
     cout<<"\nEnter the number of processes: ";
     cin>>n;
     //accepting processes

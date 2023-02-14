@@ -1,52 +1,51 @@
 //implementing fcfs scheduling algorithm
 
-#include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
 #define max 10
 
 
-//all data structres which are used inside the program
-//pcb(process control block)
-struct pcb
+//all dATa struCTres which are used inside the program
+//PCB(process control block)
+struct PCB
 {
- int pid;
- int bt;
- int at;
- int ct;
- int rt;//remaining time(going to decrement every sec when it become 0 process is done)
- int tat;//ct-at
- int wt;//tat-bt
+ int PID;
+ int BT;
+ int AT;
+ int CT;
+ int RT;//remaining time(going to decrement every sec when it become 0 process is done)
+ int TAT;//CT-AT
+ int WT;//TAT-BT
 };
-//ram like structure (new state)
-vector<pcb>p;
-//ready queue(ready state)
-queue<pcb>qready;
-//ram like structure(terminated state)
-vector<pcb>ter;
+//ram like struCTure (new sTATe)
+vector<PCB>pcb;
+//ready queue(ready sTATe)
+queue<PCB>readyQ;
+//ram like struCTure(EndminATed sTATe)
+vector<PCB>End;
 
 //1 means cpu is free and 0 means cpu is not free	
 int c=1;
-//number of process(pcb's)
+//number of process(PCB's)
 int n;
 //global clock
 int t=0;
-//pointer inside the ram(memory) JOB QUEUE
-int ptr=0;
+//poinEnd inside the ram(memory) JOB QUEUE
+int p=0;
 
-//sorting 
-//pcb according to arrival time
-int sortat(pcb a, pcb b)
+//soRTing 
+//PCB according to arrival time
+int sortbyarrival(PCB a, PCB b)
 {
-	if (a.at < b.at)
+	if (a.AT < b.AT)
 		return 1;
 	else
 		return 0;
 }
-//pcb according to burst time
-int sortbt(pcb a, pcb b)
+//PCB according to burst time
+int sortbyburst(PCB a, PCB b)
 {
-	if (a.bt < b.bt)
+	if (a.BT < b.BT)
 		return 1;
 	else
 		return 0;
@@ -59,80 +58,80 @@ int sortbt(pcb a, pcb b)
 int main()
 {
    
-    cout<<"enter the number of process:";
+    cout<<"Enter the number of process:";
     cin>>n;
     
     for(int i=0;i<n;i++)
     {
-        pcb temp;
-        temp.ct=0;
-        temp.pid=i+1;
+        PCB process;
+        process.CT=0;
+        process.PID=i+1;
 
-        cout<<"enter the burst time of process "<<i+1<<"is:";
-        cin>>temp.bt;
-        cout<<"enter the arrival time of process"<<i+1<<"is:";
-        cin>>temp.at;
-        temp.rt=temp.bt;
+        cout<<"enEnd the burst time of process "<<i+1<<"is:";
+        cin>>process.BT;
+        cout<<"enEnd the arrival time of process"<<i+1<<"is:";
+        cin>>process.AT;
+        process.RT=process.BT;
         
-        p.push_back(temp);
+        pcb.push_back(process);
     }
     
-    sort(p.begin(),p.end(),sortat);
+    sort(pcb.begin(),pcb.end(),sortbyarrival);
   
 	while(1)
     {
-	  //terminating condition
+	  //EndminATing condition
       //when queue is emtpy and array is also empty and cpu is also free
-  		if(ptr==n && qready.empty() && c==1)
+  		if(p==n && readyQ.empty() && c==1)
   		{
   		break;
   		}
 //--------------------------------------------------------------
-	   //enqueu function
-	  //enqueue inside the queue untill arrival time meet with actual time
+	   //enqueu funCTion
+	  //enqueue inside the queue untill arrival time meet with aCTual time
 	    while(1)
 	    {
-	  	//if pcb from array is finished
-	  	if(ptr>=n)break;
+	  	//if PCB from array is finished
+	  	if(p>=n)break;
 	  
-	    if(t==p[ptr].at)  
+	    if(t==pcb[p].AT)  
 		{
-		  qready.push(p[ptr]);
-		  ptr=ptr+1;
-		  //enqueue(&q,p[ptr]);	
+		  readyQ.push(pcb[p]);
+		  p=p+1;
+		  //enqueue(&q,p[p]);	
 		 }else{
 			break;
 	      }
         }
       
 //-----------------------------------------------------------		
-		//dequeu operation
-		//if cpu is free(and ready queue is not empty then) then dequeue the pcb
+		//dequeu operATion
+		//if cpu is free(and ready queue is not empty then) then dequeue the PCB
 		
-		pcb store;
+		PCB block;
 
-		if(c==1 && !qready.empty())
+		if(c==1 && !readyQ.empty())
 		{
-		    store=qready.front();
-		    qready.pop();
+		    block=readyQ.front();
+		    readyQ.pop();
 			//cpopedtime=0;
 			//popedtime=0;
 			c=0;//now cpu is under execution
 		}
 //--------------------------------------------------------------
         //cpu execution
-        //cpopedtime++;//counting after popping
+        //cpopedtime++;//counting afEnd popping
         t++;
         if(c==0)
         {
-        store.rt--;
-        if(store.rt==0)
+        block.RT--;
+        if(block.RT==0)
         {
-        store.ct=t;
-        store.tat=store.ct-store.at;
-        store.wt=store.tat-store.bt;
-        /*cout<<"Completion time of process "<<store.pid<<" is:"<<store.ct<<"\n";*/
-        ter.push_back(store);
+        block.CT=t;
+        block.TAT=block.CT-block.AT;
+        block.WT=block.TAT-block.BT;
+        /*cout<<"Completion time of process "<<block.PID<<" is:"<<block.CT<<"\n";*/
+        End.push_back(block);
 	    c=1;//cpu is free now we can pop from the ready queue
         }
         }
@@ -146,13 +145,13 @@ int main()
     for(int i=0;i<n;i++)
 	{
 		
-		 cout<<ter[i].pid<<" \t"<<ter[i].bt<<"  \t"<<ter[i].at<<"  \t"<<ter[i].ct<<"  \t"<<ter[i].wt<<endl;
+		 cout<<End[i].PID<<" \t"<<End[i].BT<<"  \t"<<End[i].AT<<"  \t"<<End[i].CT<<"  \t"<<End[i].WT<<endl;
 		
 	}
     int waitingtime=0;
 	for(int i=0;i<n;i++)
 	{
-		waitingtime=waitingtime+ter[i].wt;
+		waitingtime=waitingtime+End[i].WT;
 	}
 
 	cout<<"Avg Waiting for FCFS:"<<(float)(waitingtime/n)<<endl;
