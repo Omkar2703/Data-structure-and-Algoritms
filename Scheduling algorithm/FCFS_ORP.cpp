@@ -1,4 +1,4 @@
-//FCFS
+//FCFS😉
 #include<bits/stdc++.h>
 using namespace std;
 #define max 10
