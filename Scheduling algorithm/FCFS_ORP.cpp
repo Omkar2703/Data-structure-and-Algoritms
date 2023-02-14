@@ -108,7 +108,7 @@ int main(){
 	for(int i=0; i<n; i++){
 		tat+=End[i].TAT;
 	}
-	cout<<"\nAverage TAT for FCFS:"<<(float)(tat/n)<<endl;
-	cout<<"\nAverage Waiting for FCFS:"<<(float)(waitingtime/n)<<endl;
+	cout<<"\nAverage TAT for FCFS:"<<(float)(tat/n)<<endl;//avg tat
+	cout<<"\nAverage Waiting for FCFS:"<<(float)(waitingtime/n)<<endl;//avg wt
     return 0;
 }
