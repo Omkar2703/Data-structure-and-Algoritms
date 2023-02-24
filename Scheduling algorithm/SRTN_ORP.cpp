@@ -1,4 +1,4 @@
-/*Shortest Remaining Time Next*/🤐
+/*Shortest Remaining Time Next*/
 /*Preamtive Shortest Job First*/
 #include <bits/stdc++.h>
 using namespace std;

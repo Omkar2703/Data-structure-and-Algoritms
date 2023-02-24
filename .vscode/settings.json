@@ -3,6 +3,10 @@
     "files.associations": {
         "*.embeddedhtml": "html",
         "linklistcpp": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "atomic": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp"
     }
 }
